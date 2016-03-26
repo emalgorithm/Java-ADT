@@ -1,5 +1,7 @@
 package uk.co.emanuelerossi.util;
 
+import java.util.Iterator;
+
 /**
  * Created by ema on 16/03/16.
  */
@@ -14,5 +16,11 @@ public interface List<T> {
 
     T get(int pos);
 
+    boolean contains(T elem);
+
     void clear();
+
+    Iterator<T> iterator();
+
+
 }

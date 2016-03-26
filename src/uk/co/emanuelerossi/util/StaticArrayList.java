@@ -1,5 +1,7 @@
 package uk.co.emanuelerossi.util;
 
+import java.util.Iterator;
+
 /**
  * Created by ema on 16/03/16.
  */
@@ -67,6 +69,17 @@ public class StaticArrayList<T> implements List<T> {
     }
 
     @Override
+    public boolean contains(T elem) {
+        for (int i = 0; i < elementsNumber; i++) {
+            if (elems[i] == elem) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public void clear() {
         //Clear array to allow garbage collection
         for (int i = 0; i < elementsNumber; i++) {
@@ -74,6 +87,39 @@ public class StaticArrayList<T> implements List<T> {
         }
 
         elementsNumber = 0;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new StaticArrayListIterator();
+    }
+
+    private class StaticArrayListIterator implements Iterator<T> {
+        int index;
+        int lastRemovedIndex;
+
+        public StaticArrayListIterator() {
+            lastRemovedIndex = -1;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return index < elementsNumber;
+        }
+
+        @Override
+        public T next() {
+            return elems[index++];
+        }
+
+        @Override
+        public void remove() {
+            if (index < 1 || index == lastRemovedIndex) {
+                throw new IllegalStateException();
+            }
+
+            StaticArrayList.this.remove(index--);
+        }
     }
 
     private void makeSpace(int pos) {

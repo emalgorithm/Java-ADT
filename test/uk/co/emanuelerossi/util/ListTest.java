@@ -4,8 +4,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -21,6 +20,19 @@ public abstract class ListTest {
 
     @After
     public abstract void tearDown() throws Exception;
+
+    @Test
+    public void testClear() {
+        list.clear();
+        assertTrue("clear() failed for Empty dictionary ", list.isEmpty());
+    }
+
+    @Test
+    public void testClearWithContent() {
+        list.add("Jennyanydots", 0);
+        list.clear();
+        assertTrue("clear() failed for non-empty dictionary ", list.isEmpty());
+    }
 
     @Test
     public void testSize() throws Exception {
@@ -65,6 +77,8 @@ public abstract class ListTest {
             list.add(cats.get(i), 0);
         }
 
+        System.out.println(list);
+
         list.remove(1);
 
         assertEquals("remove() failed with multiple item dictionary", 2, list
@@ -98,5 +112,45 @@ public abstract class ListTest {
 
         assertEquals("get() failed for multiple item dictionary", "Mr. Mistoffelees", list
                 .get(2));
+    }
+
+    @Test
+    public void testListIteratorEmpty() {
+        Iterator<String> it = list.iterator();
+        assertFalse("Iterator: hasNext() failed with empty dictionary", it
+                .hasNext());
+    }
+
+    @Test
+    public void testListIteratorMany() {
+        java.util.List<String> cats = Arrays.asList("practical", "dramatical",
+                "pragmatical", "fanatical", "oratorical", "delphioracle",
+                "skeptical", "dispeptical", "romantical", "pedantical",
+                "critical", "parasitical", "allegorical", "metaphorical",
+                "statistical", "mystical", "political", "hypocritical",
+                "clerical", "hysterical", "cynical", "rabbinical");
+        for (int i = 0; i < cats.size(); i++) {
+            list.add(cats.get(i), i);
+        }
+
+        java.util.List<String> sortedCats = new ArrayList<String>(cats);
+
+        Iterator<String> expected = sortedCats.iterator();
+        Iterator<String> actual = list.iterator();
+
+        while (expected.hasNext()) {
+            assertTrue("Iterator hasNext() failed when expected", actual
+                    .hasNext());
+
+            String expectedCat = expected.next();
+            String actualCat = actual.next();
+
+            assertEquals("Iterator next() returned the wrong element",
+                    expectedCat, actualCat);
+
+        }
+        assertFalse("Iterator hasNext() failed at the end of the dictionary",
+                actual.hasNext());
+
     }
 }

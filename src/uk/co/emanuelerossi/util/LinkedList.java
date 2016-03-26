@@ -1,5 +1,7 @@
 package uk.co.emanuelerossi.util;
 
+import java.util.Iterator;
+
 /**
  * Created by ema on 16/03/16.
  */
@@ -79,9 +81,62 @@ public class LinkedList<T> implements List<T> {
     }
 
     @Override
+    public boolean contains(T elem) {
+        Node node = head;
+
+        while (node != null) {
+            if (node.getValue() == elem) {
+                return true;
+            }
+            node = node.getNext();
+        }
+
+        return false;
+    }
+
+    @Override
     public void clear() {
         head = null;
         elementsNumber = 0;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator<T> {
+        int pos;
+        int expectedModificationNum;
+        Node lastRemovedNode;
+
+        public LinkedListIterator() {
+            pos = 0;
+            expectedModificationNum = 0;
+            lastRemovedNode = null;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return pos < elementsNumber;
+        }
+
+        @Override
+        public T next() {
+            //TODO nextNode is null --> exception
+            //TODO change from N^2 to N
+            return getNode(pos++).getValue();
+        }
+
+        @Override
+        public void remove() {
+            //TODO introduce remove testing
+            if (pos == 0) {
+                throw new IllegalStateException();
+            }
+
+            LinkedList.this.remove(pos--);
+        }
     }
 
     private Node getNode(int pos) {
