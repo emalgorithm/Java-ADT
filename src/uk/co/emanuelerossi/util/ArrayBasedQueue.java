@@ -25,7 +25,7 @@ public class ArrayBasedQueue<T> implements Queue<T> {
     }
 
     @Override
-    public T getFront() {
+    public T element() {
         if (isEmpty()) {
             throw new EmptyQueueException();
         }
@@ -51,7 +51,7 @@ public class ArrayBasedQueue<T> implements Queue<T> {
     }
 
     @Override
-    public T dequeue() {
+    public T remove() {
         if (isEmpty()) {
             throw new EmptyQueueException();
         }

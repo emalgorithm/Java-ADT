@@ -1,6 +1,5 @@
 package uk.co.emanuelerossi.util;
 
-import com.sun.source.tree.AssertTree;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,12 +30,12 @@ public abstract class QueueTest {
     public void testGetFront() throws Exception {
         Integer item = 34;
         queue.add(item);
-        assertEquals("getFront has failed with non-empty queue", item, queue.getFront());
+        assertEquals("element has failed with non-empty queue", item, queue.element());
     }
 
     @Test(expected = EmptyQueueException.class)
     public void testGetFrontOnEmptyQueue() throws Exception {
-        queue.getFront();
+        queue.element();
     }
 
     @Test
@@ -51,12 +50,12 @@ public abstract class QueueTest {
         Integer secondItem = 34;
         queue.add(firstItem);
         queue.add(secondItem);
-        assertEquals("peek has failed with non-empty queue", firstItem, queue.dequeue());
-        assertEquals("peek has failed with non-empty queue", secondItem, queue.dequeue());
+        assertEquals("peek has failed with non-empty queue", firstItem, queue.remove());
+        assertEquals("peek has failed with non-empty queue", secondItem, queue.remove());
     }
 
     @Test(expected = EmptyQueueException.class)
     public void testDequeueOnEmptyQueue() throws Exception {
-        queue.dequeue();
+        queue.remove();
     }
 }

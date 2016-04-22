@@ -6,11 +6,11 @@ package uk.co.emanuelerossi.util;
 public interface Queue<T> {
     boolean isEmpty();
 
-    T getFront();
+    T element();
 
     void add(T item);
 
-    T dequeue();
+    T remove();
 
     int size();
 }
